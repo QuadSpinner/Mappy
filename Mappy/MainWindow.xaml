@@ -3,34 +3,60 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        Title="Mappy"
+        Title="QuadSpinner Mappy"
         Width="800"
         Height="450"
         mc:Ignorable="d">
-    <DockPanel>
-        <DockPanel DockPanel.Dock="Bottom" Margin="4">
-            <Button Margin="4" Style="{StaticResource Button-Important}" MinWidth="128"
-                    Padding="8" x:Name="btnSync"
-                    Content="Run Sync" Click="RunSync" />
-            <Button Margin="4"
-                    Padding="8"
-                    Content="Manage Accounts" Click="ShowAccountsDialog" />
-            <Label Content="Days:" VerticalAlignment="Center"></Label>
-            <TextBox x:Name="txtDays"
-                     Padding="8"
-                     Margin="4"
-                     VerticalAlignment="Center"
-                     FontFamily="Consolas"
-                     Text="8" Width="80" />
-            <Label Content="Keywords:" VerticalAlignment="Center"></Label>
-            <TextBox x:Name="k"
-                     Padding="8"
-                     Margin="4"
-                     VerticalAlignment="Center"
-                     FontFamily="Consolas"
-                     Text="invoice,receipt,remittance,billing statement,order" />
-        </DockPanel>
-        <TextBox x:Name="t"
+    <DockPanel Margin="8">
+        <StackPanel Margin="4,0,4,4" DockPanel.Dock="Bottom">
+
+            <DockPanel Margin="4">
+                <Button x:Name="btnSync"
+                        MinWidth="128"
+                        Margin="4"
+                        Padding="8"
+                        Click="RunSync"
+                        Content="Run Sync"
+                        Style="{StaticResource Button-Important}" />
+                <Button Margin="4"
+                        Padding="8"
+                        Click="ShowAccountsDialog"
+                        Content="Manage Accounts" />
+                <Label VerticalAlignment="Center" Content="Days:" />
+                <TextBox x:Name="txtDays"
+                         Width="80"
+                         Margin="4"
+                         Padding="8"
+                         VerticalAlignment="Center"
+                         FontFamily="Consolas"
+                         Text="8" />
+                <Label VerticalAlignment="Center" Content="Keywords:" />
+                <TextBox x:Name="txtKeywords"
+                         Margin="4"
+                         Padding="8"
+                         VerticalAlignment="Center"
+                         FontFamily="Consolas"
+                         Text="invoice,receipt,remittance,billing statement,order" />
+            </DockPanel>
+            <DockPanel Margin="4,0">
+                <Label VerticalAlignment="Center" Content="Save to:" />
+                <CheckBox x:Name="chkOpenWhenFinished"
+                          VerticalAlignment="Center"
+                          Content="Open when finished"  Margin="4"
+                          DockPanel.Dock="Right" />
+
+                <Button x:Name="btnOpenFolder" Click="BtnOpenFolder_OnClick"
+                          Content="Open Folder"  Margin="4"
+                          DockPanel.Dock="Right" />
+                <TextBox x:Name="txtDestination"
+                         Margin="4"
+                         Padding="8"
+                         VerticalAlignment="Center"
+                         FontFamily="Consolas"
+                         Text="docs" />
+            </DockPanel>
+        </StackPanel>
+        <TextBox x:Name="txtConsole"
                  Margin="8"
                  Padding="8"
                  AcceptsReturn="True"

@@ -1,12 +1,12 @@
-﻿using System.IO;
-using iText.Kernel.Pdf;
+﻿using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas.Parser;
 using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Search;
 using MimeKit;
+using System.IO;
 
-namespace Mappy
+namespace Mappy.Logic
 {
     internal static class Guts
     {
@@ -28,11 +28,23 @@ namespace Mappy
         {
             bool ensureKeywords = keywords != null;
             DateTime period = DateTime.Now.AddDays(-days);
-            RaiseNotify($"Connecting...{username}", true);
+            RaiseNotify($"Connecting {host}:{port}...");
 
             using var client = new ImapClient();
-            await client.ConnectAsync(host, port, useSsl);
-            await client.AuthenticateAsync(username, password);
+
+            try
+            {
+                await client.ConnectAsync(host, port, useSsl);
+                await client.AuthenticateAsync(username, password);
+
+                RaiseNotify("success!\n", true);
+            }
+            catch (Exception ex)
+            {
+                RaiseNotify("failed!", true);
+                RaiseNotify($"!!! Login Error: {ex.Message}", true);
+                return;
+            }
 
             List<IMailFolder> mailFolders = [client.Inbox];
 
@@ -43,14 +55,17 @@ namespace Mappy
                     IMailFolder f = await client.GetFolderAsync(t);
                     if (f != null)
                     {
-                        RaiseNotify($"Added {f.Name}", true);
                         mailFolders.Add(f);
                     }
                 }
             }
 
+            int fo = 0;
+
             foreach (IMailFolder folder in mailFolders)
             {
+                fo++;
+
                 await folder.OpenAsync(FolderAccess.ReadOnly);
 
                 IList<UniqueId> uids = await folder.SearchAsync(SearchQuery.DeliveredAfter(period).And(BuildKeywordQuery(keywords)));
@@ -67,14 +82,19 @@ namespace Mappy
 
                 // Retrieve emails delivered after one month ago.
 
-                RaiseNotify($"{uids.Count} total for folder {folder.Name}.", true);
+                RaiseNotify($"[{fo}/{mailFolders.Count}] {folder.Name}: {uids.Count} matches.", true);
+
+                int i = 1;
 
                 foreach (var uid in uids)
                 {
                     var message = await folder.GetMessageAsync(uid);
 
                     if (string.IsNullOrEmpty(message.Subject) || !message.Attachments.Any())
+                    {
+                        i++;
                         continue;
+                    }
 
                     DateTime emailDate = message.Date.LocalDateTime;
                     // Determine sender folder.
@@ -95,6 +115,8 @@ namespace Mappy
                     // Process PDF attachments.
                     await ParseAttachments(ensureKeywords, keywords, message, emailDate, senderFolder, fullFolderPath);
                 }
+
+                RaiseNotify($"   ↪ {uids.Count - i} processed. {i} skipped.", true);
             }
 
             await client.DisconnectAsync(true);
@@ -151,26 +173,26 @@ namespace Mappy
                         }
                         catch (Exception ex)
                         {
-                            RaiseNotify("!!! ERROR: " + ex.Message, true);
-                            RaiseNotify($"!!! File was: {fileName}", true);
+                            RaiseNotify($"   {fileName}...failed!");
+                            RaiseNotify("   !!! ERROR: " + ex.Message, true);
                             continue;
                         }
                     }
 
                     //RaiseNotify($"{message.Date:MM-dd}: {message.Subject} -- ");
                     string filePath = Path.Combine(fullFolderPath, fileName);
-                    RaiseNotify($"{filePath}...");
+                    string result = "✔️";
                     if (!File.Exists(filePath))
                     {
                         Directory.CreateDirectory(fullFolderPath);
                         await using var stream = File.Create(filePath);
                         await part.Content.DecodeToAsync(stream);
-                        RaiseNotify("done!", true);
                     }
                     else
                     {
-                        RaiseNotify("exists!", true);
+                        result = "⇢";
                     }
+                    RaiseNotify($"  {result} {fileName}", true);
                 }
             }
         }
