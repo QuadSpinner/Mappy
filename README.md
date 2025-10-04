@@ -2,9 +2,6 @@
 
 Small WPF utility that logs into IMAP accounts, searches recent mail by subject keywords, and saves PDF attachments into month-based folders. Passwords are stored encrypted (DPAPI). Accounts are managed via a built-in dialog.
 
-Written by [@daxpandhi](https://github.com/daxpandhi) for QuadSpinner.
-
-
 ![Mappy Screenshot](MappyUI.png)
 
 
@@ -12,13 +9,13 @@ Written by [@daxpandhi](https://github.com/daxpandhi) for QuadSpinner.
 
 ## Features
 
-* **Account manager dialog** (add/edit/delete; always has a draft row for immediate editing).  
-* **Per-account settings:** `host`, `port`, `useSsl`, `username`, `password (encrypted)`, `keywords[]`, `folders[]`. Stored at `%AppData%\Mappy\email_account.json`.  
-* **DPAPI-encrypted passwords** (CurrentUser; transparent through `EmailAccount.Password`).  
-* **Global keywords** (comma-separated, persisted to `%AppData%\Mappy\keywords.txt`). 
-* **IMAP sync** across Inbox + optional folders; search last *N* days (UI) for subject keyword hits; save **PDF** attachments to `SavedPDFs/YYYY-MM`.    
-* **Optional PDF content check**: if keywords provided, PDFs are text-scanned before saving (iText 7).  
-* **On-screen log** via `Guts.Notify`. 
+* Manage all your email accounts in one place—add, edit, or delete. A blank row is ready so you can start typing right away.
+* Store per-account settings (Host, Port, SSL, Username, Password, Keywords, Folders) in your profile at `%AppData%\Mappy\email_account.json`.
+* Your password is encrypted with your Windows login and handled automatically—no extra steps.
+* Keep a single list of global keywords (comma-separated) that apply to every account, saved at `%AppData%\Mappy\keywords.txt`.
+* Click **Sync** to scan Inbox and chosen folders from the last *N* days for subject matches, and save PDF attachments into `SavedPDFs/YYYY-MM`.
+* Optionally require the PDF’s text to contain your keywords to reduce false positives.
+* See live progress and results in the on-screen log.
 
 ---
 
@@ -46,6 +43,17 @@ Written by [@daxpandhi](https://github.com/daxpandhi) for QuadSpinner.
 
 * **Attachment filtering**
   When keywords exist, PDFs are written to a temp file, text-extracted with iText, checked for any keyword match, then saved (else skipped).  
+
+
+## Key Details
+
+* **Account manager dialog** (add/edit/delete; always has a draft row for immediate editing).  
+* **Per-account settings:** `host`, `port`, `useSsl`, `username`, `password (encrypted)`, `keywords[]`, `folders[]`. Stored at `%AppData%\Mappy\email_account.json`.  
+* **DPAPI-encrypted passwords** (CurrentUser; transparent through `EmailAccount.Password`).  
+* **Global keywords** (comma-separated, persisted to `%AppData%\Mappy\keywords.txt`). 
+* **IMAP sync** across Inbox + optional folders; search last *N* days (UI) for subject keyword hits; save **PDF** attachments to `SavedPDFs/YYYY-MM`.    
+* **Optional PDF content check**: if keywords provided, PDFs are text-scanned before saving (iText 7).  
+* **On-screen log** via `Guts.Notify`. 
 
 ---
 
@@ -95,11 +103,11 @@ await Guts.GetMessages(host, port, useSsl, user, pass, days, keywords, folders);
 
 ## License
 
-MIT.
+Licensed under the permissive [MIT License](LICENSE.txt).
 
 
 ## Additional Credits
 
 Mouse Icon courtesy of Icons8
 
-[Mouse Animal](https://icons8.com/icon/PlxnotwI57JG/mouse-animal") icon by [Icons8](https://icons8.com)
+[Mouse Animal](https://icons8.com/icon/PlxnotwI57JG/mouse-animal) icon by [Icons8](https://icons8.com)
