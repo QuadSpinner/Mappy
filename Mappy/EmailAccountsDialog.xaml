@@ -1,0 +1,146 @@
+﻿<!--  EmailAccountsDialog.xaml  -->
+<Window x:Class="Mappy.EmailAccountsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Email Accounts"
+        Width="820"
+        Height="520"
+        WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
+            <Setter Property="Margin" Value="0,0,0,8" />
+        </Style>
+        <Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="CheckBox">
+            <Setter Property="Margin" Value="0,0,0,8" />
+        </Style>
+        <Style TargetType="PasswordBox">
+            <Setter Property="Margin" Value="0,0,0,8" />
+        </Style>
+        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="MinWidth" Value="90" />
+        </Style>
+    </Window.Resources>
+    <DockPanel>
+        <StackPanel Margin="8"
+                    HorizontalAlignment="Right"
+                    DockPanel.Dock="Bottom"
+                    Orientation="Horizontal">
+            <Button Click="OnAdd" Content="Add" />
+            <Button Click="OnDelete" Content="Delete" />
+            <Button Click="OnSave"
+                    Content="Save"
+                    IsDefault="True" />
+            <Button Content="Cancel" IsCancel="True" />
+        </StackPanel>
+
+        <Grid Margin="12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="3*" />
+            </Grid.ColumnDefinitions>
+
+            <!--  Accounts list  -->
+            <GroupBox Margin="0,0,12,0" Header="Accounts">
+                <DataGrid AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          ItemsSource="{Binding Accounts}" SelectionChanged="AccountsGrid_SelectionChanged"
+                          SelectedItem="{Binding Selected}"
+                          SelectionMode="Single">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="*"
+                                            Binding="{Binding Host}"
+                                            Header="Host" />
+                        <DataGridTextColumn Width="SizeToCells"
+                                            Binding="{Binding Port}"
+                                            Header="Port" />
+                        <DataGridCheckBoxColumn Width="SizeToCells"
+                                                Binding="{Binding UseSsl}"
+                                                Header="SSL" />
+                        <DataGridTextColumn Width="*"
+                                            Binding="{Binding Username}"
+                                            Header="User" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+
+            <!--  Editor  -->
+            <GroupBox Grid.Column="1" Header="Details">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               VerticalAlignment="Center"
+                               Text="Host:" />
+                    <TextBox Grid.Row="0"
+                             Grid.Column="1"
+                             Text="{Binding Selected.Host, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="0"
+                               VerticalAlignment="Center"
+                               Text="Port:" />
+                    <TextBox Grid.Row="1"
+                             Grid.Column="1"
+                             Text="{Binding Selected.Port, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="0"
+                               VerticalAlignment="Center"
+                               Text="Use SSL:" />
+                    <CheckBox Grid.Row="2"
+                              Grid.Column="1"
+                              IsChecked="{Binding Selected.UseSsl}" />
+
+                    <TextBlock Grid.Row="3"
+                               Grid.Column="0"
+                               VerticalAlignment="Center"
+                               Text="Username:" />
+                    <TextBox Grid.Row="3"
+                             Grid.Column="1"
+                             Text="{Binding Selected.Username, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Grid.Row="4"
+                               Grid.Column="0"
+                               VerticalAlignment="Center"
+                               Text="Password:" />
+                    <!--  Simple code-behind sync of PasswordBox -> VM.PasswordPlain  -->
+                    <PasswordBox x:Name="pwd"
+                                 Grid.Row="4"
+                                 Grid.Column="1"
+                                 PasswordChanged="OnPasswordChanged" />
+
+                    <TextBlock Grid.Row="5"
+                               Grid.Column="0"
+                               VerticalAlignment="Center"
+                               Text="Keywords (CSV):" />
+                    <TextBox Grid.Row="5"
+                             Grid.Column="1"
+                             Text="{Binding Selected.KeywordsCsv, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Grid.Row="6"
+                               Grid.Column="0"
+                               VerticalAlignment="Top"
+                               Text="Folders (CSV):" />
+                    <TextBox Grid.Row="6"
+                             Grid.Column="1"
+                             AcceptsReturn="True"
+                             Text="{Binding Selected.FoldersCsv, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
+            </GroupBox>
+        </Grid>
+    </DockPanel>
+</Window>

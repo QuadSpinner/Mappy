@@ -1,0 +1,929 @@
+﻿<Application x:Class="Mappy.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Mappy"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <SolidColorBrush x:Key="TextBox.Static.Border" Color="#FFABAdB3" />
+        <SolidColorBrush x:Key="TextBox.MouseOver.Border" Color="#FF7EB4EA" />
+        <SolidColorBrush x:Key="TextBox.Focus.Border" Color="#FF569DE5" />
+
+        <Color x:Key="c-ButtonBorder">#d0d0d0</Color>
+        <Color x:Key="c-ButtonBorder-Hover">#0078d4</Color>
+        <Color x:Key="c-ButtonBorder-Pressed">#005499</Color>
+        <Color x:Key="c-ButtonBackground">#fdfdfd</Color>
+        <Color x:Key="c-ButtonBackground-Hover">#e0eef9</Color>
+        <Color x:Key="c-ButtonBackground-Pressed">#cce4f7</Color>
+        <SolidColorBrush x:Key="Accent" Color="#000" />
+
+        <SolidColorBrush x:Key="accent1" Color="#b91c1c" />
+        <SolidColorBrush x:Key="accent2" Color="#2563eb" />
+        <SolidColorBrush x:Key="accent3" Color="#16a34a" />
+        <SolidColorBrush x:Key="accent4" Color="#7c3aed" />
+        <SolidColorBrush x:Key="accent5" Color="#0891b2" />
+        <SolidColorBrush x:Key="accent6" Color="#ca8a04" />
+        <SolidColorBrush x:Key="accent7" Color="#059669" />
+        <SolidColorBrush x:Key="accent8" Color="#db2777" />
+
+        <FontFamily x:Key="Font-Monospace">Fonts/#GaeaMono Fixed Semibold</FontFamily>
+
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Padding" Value="12,3" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border"
+                                BorderThickness="1"
+                                CornerRadius="2">
+                            <Border.BorderBrush>
+                                <SolidColorBrush x:Name="borderbrush" Color="#d0d0d0" />
+                            </Border.BorderBrush>
+                            <Border.Background>
+                                <SolidColorBrush x:Name="borderbg" Color="#fdfdfd" />
+                            </Border.Background>
+
+                            <ContentPresenter x:Name="ContentPresenter"
+                                              Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+                        </Border>
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.75" />
+                                <Setter TargetName="ContentPresenter" Property="Opacity" Value="0.5" />
+                                <Setter Property="IsHitTestVisible" Value="False" />
+                            </Trigger>
+                            <EventTrigger x:Name="t1" RoutedEvent="Control.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="borderbg"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#e0eef9"
+                                                        Duration="0:0:0.200" />
+                                        <ColorAnimation Storyboard.TargetName="borderbrush"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#0078d4"
+                                                        Duration="0:0:0.200" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Control.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="borderbg"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#fdfdfd"
+                                                        Duration="0:0:0.333" />
+                                        <ColorAnimation Storyboard.TargetName="borderbrush"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#d0d0d0"
+                                                        Duration="0:0:0.333" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Control.MouseDown">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="borderbg"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#cce4f7"
+                                                        Duration="0:0:0.333" />
+                                        <ColorAnimation Storyboard.TargetName="borderbrush"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#005499"
+                                                        Duration="0:0:0.333" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <!--<EventTrigger RoutedEvent="Control.MouseUp">
+                              <BeginStoryboard>
+                                  <Storyboard>
+                                      <ColorAnimation Storyboard.TargetName="borderbg"
+                                                      Storyboard.TargetProperty="Color"
+                                                      To="#e0eef9"
+                                                      Duration="0:0:0.333" />
+                                      <ColorAnimation Storyboard.TargetName="borderbrush"
+                                                      Storyboard.TargetProperty="Color"
+                                                      To="#0078d4"
+                                                      Duration="0:0:0.333" />
+                                  </Storyboard>
+                              </BeginStoryboard>
+                          </EventTrigger>-->
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="Button-Important" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border"
+                                BorderThickness="1"
+                                CornerRadius="2">
+                            <Border.BorderBrush>
+                                <SolidColorBrush x:Name="borderbrush" Color="#0078d4" />
+                            </Border.BorderBrush>
+                            <Border.Background>
+                                <SolidColorBrush x:Name="borderbg" Color="#fdfdfd" />
+                            </Border.Background>
+
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <EventTrigger RoutedEvent="Control.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="borderbg"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#e0eef9"
+                                                        Duration="0:0:0.200" />
+                                        <ColorAnimation Storyboard.TargetName="borderbrush"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#0078d4"
+                                                        Duration="0:0:0.200" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Control.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="borderbg"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#fdfdfd"
+                                                        Duration="0:0:0.333" />
+                                        <ColorAnimation Storyboard.TargetName="borderbrush"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#0078d4"
+                                                        Duration="0:0:0.333" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Control.MouseDown">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="borderbg"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#cce4f7"
+                                                        Duration="0:0:0.333" />
+                                        <ColorAnimation Storyboard.TargetName="borderbrush"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#005499"
+                                                        Duration="0:0:0.333" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <!--<EventTrigger RoutedEvent="Control.MouseUp">
+                              <BeginStoryboard>
+                                  <Storyboard>
+                                      <ColorAnimation Storyboard.TargetName="borderbg"
+                                                      Storyboard.TargetProperty="Color"
+                                                      To="#e0eef9"
+                                                      Duration="0:0:0.333" />
+                                      <ColorAnimation Storyboard.TargetName="borderbrush"
+                                                      Storyboard.TargetProperty="Color"
+                                                      To="#0078d4"
+                                                      Duration="0:0:0.333" />
+                                  </Storyboard>
+                              </BeginStoryboard>
+                          </EventTrigger>-->
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CloseButton" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border"
+                                BorderThickness="1"
+                                CornerRadius="2">
+                            <Border.BorderBrush>
+                                <SolidColorBrush x:Name="borderbrush" Color="#d0d0d0" />
+                            </Border.BorderBrush>
+                            <Border.Background>
+                                <SolidColorBrush x:Name="borderbg" Color="#fdfdfd" />
+                            </Border.Background>
+                            <DockPanel Margin="4">
+                                <Border Width="2"
+                                        Background="{TemplateBinding BorderBrush}"
+                                        CornerRadius="1"
+                                        DockPanel.Dock="Left" />
+                                <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  DockPanel.Dock="Right" />
+                            </DockPanel>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <EventTrigger RoutedEvent="Control.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="borderbg"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#c42b1c"
+                                                        Duration="0:0:0.100" />
+                                        <ColorAnimation Storyboard.TargetName="borderbrush"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#9c0010"
+                                                        Duration="0:0:0.100" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Control.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="borderbg"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#fdfdfd"
+                                                        Duration="0:0:0.333" />
+                                        <ColorAnimation Storyboard.TargetName="borderbrush"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#d0d0d0"
+                                                        Duration="0:0:0.333" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type Separator}">
+
+            <Setter Property="Height" Value="1" />
+            <Setter Property="Margin" Value="0,2,0,2" />
+            <Setter Property="Focusable" Value="false" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Separator}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1"
+                                Opacity="0.2" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="{x:Type Separator}">
+            <Setter Property="Height" Value="1" />
+            <Setter Property="Margin" Value="0,2,0,2" />
+            <Setter Property="Focusable" Value="false" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Separator}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1"
+                                Opacity="0.2" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type ContextMenu}">
+            <Setter Property="UseLayoutRounding" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ContextMenu}">
+                        <Grid x:Name="SubMenu" ClipToBounds="False">
+                            <Border x:Name="_SubMenuBorder"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="1">
+                                <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type MenuItem}">
+            <Setter Property="UseLayoutRounding" Value="True" />
+
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="MinWidth" Value="180" />
+            <Setter Property="MinHeight" Value="29" />
+            <!--<Setter Property="Background" Value="Transparent" />
+          <Setter Property="BorderBrush" Value="{DynamicResource LiteFG}" />
+          <Setter Property="Foreground" Value="{DynamicResource LiteFG}" />-->
+            <Setter Property="Padding" Value="2,0,2,0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type MenuItem}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition x:Name="iconColumn"
+                                                  Width="30"
+                                                  MinWidth="30"
+                                                  SharedSizeGroup="MenuItemIconColumnGroup" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition SharedSizeGroup="MenuItemIGTColumnGroup" />
+                                <ColumnDefinition Width="20" />
+                            </Grid.ColumnDefinitions>
+                            <Rectangle Grid.ColumnSpan="4"
+                                       Margin="0"
+                                       Fill="{TemplateBinding Background}"
+                                       Opacity="0.3"
+                                       Stroke="Transparent"
+                                       StrokeThickness="{TemplateBinding BorderThickness}" />
+                            <Label x:Name="_Icon"
+                                   Margin="0"
+                                   Padding="0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Content="{TemplateBinding Icon}"
+                                   FontFamily="Segoe UI Symbol"
+                                   FontSize="18"
+                                   FontWeight="Normal"
+                                   Foreground="{TemplateBinding BorderBrush}"
+                                   SnapsToDevicePixels="False"
+                                   TextOptions.TextFormattingMode="Display"
+                                   UseLayoutRounding="False" />
+                            <Grid x:Name="_GlyphPanel"
+                                  Margin="4,0,6,0"
+                                  VerticalAlignment="Center"
+                                  Visibility="Hidden">
+
+                                <TextBlock x:Name="GlyphPanelpath"
+                                           VerticalAlignment="Center"
+                                           FlowDirection="LeftToRight"
+                                           FontFamily="Marlett"
+                                           FontSize="16"
+                                           Foreground="{TemplateBinding Foreground}"
+                                           Text="a"
+                                           TextAlignment="Right" />
+                            </Grid>
+
+                            <Popup x:Name="_SubMenuPopup"
+                                   AllowsTransparency="true"
+                                   ClipToBounds="False"
+                                   Focusable="false"
+                                   HorizontalOffset="-1"
+                                   IsOpen="{Binding Path=IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                   Placement="Right"
+                                   PopupAnimation="None">
+                                <Grid x:Name="SubMenu" ClipToBounds="False">
+                                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                                        <Border x:Name="_SubMenuBorder"
+                                                Margin="0"
+                                                Background="{DynamicResource PopBG}"
+                                                BorderBrush="{DynamicResource LiteFG}"
+                                                BorderThickness="1">
+                                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+                                        </Border>
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+
+                            <ContentPresenter x:Name="_HeaderHost"
+                                              Grid.Column="1"
+                                              Margin="{TemplateBinding Padding}"
+                                              VerticalAlignment="Center"
+                                              ContentSource="Header"
+                                              RecognizesAccessKey="True" />
+
+                            <TextBlock Grid.Column="2"
+                                       Margin="5,2,2,2"
+                                       VerticalAlignment="Center"
+                                       DockPanel.Dock="Right"
+                                       Opacity="0.75"
+                                       Text="{TemplateBinding InputGestureText}"
+                                       TextAlignment="Right" />
+
+                            <Grid x:Name="_ArrowPanel"
+                                  Grid.Column="3"
+                                  Margin="4,0,6,0"
+                                  VerticalAlignment="Center">
+
+                                <Path x:Name="ArrowPanelPath"
+                                      VerticalAlignment="Center"
+                                      Data="M0,0L4,3.5 0,7z"
+                                      Fill="{TemplateBinding Foreground}"
+                                      Opacity="0.6"
+                                      RenderTransformOrigin="0.5,0.5"
+                                      Stretch="None"
+                                      UseLayoutRounding="False" />
+
+                            </Grid>
+                        </Grid>
+                        <!--</Border>-->
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="Role" Value="TopLevelHeader">
+                                <Setter Property="Margin" Value="0,1,0,1" />
+                                <Setter Property="Padding" Value="2" />
+                                <Setter Property="Grid.IsSharedSizeScope" Value="true" />
+                                <Setter TargetName="_SubMenuPopup" Property="Placement" Value="Bottom" />
+                                <Setter TargetName="_ArrowPanel" Property="Visibility" Value="Collapsed" />
+                                <Setter TargetName="_HeaderHost" Property="Margin" Value="-10,1,0,1" />
+                            </Trigger>
+
+                            <Trigger Property="Role" Value="TopLevelItem">
+                                <Setter Property="Margin" Value="0,1,0,1" />
+                                <Setter Property="Padding" Value="2" />
+                                <Setter TargetName="_ArrowPanel" Property="Visibility" Value="Collapsed" />
+                                <Setter TargetName="_HeaderHost" Property="Margin" Value="-10,1,0,1" />
+                            </Trigger>
+
+                            <Trigger Property="Role" Value="SubmenuHeader">
+                                <Setter Property="DockPanel.Dock" Value="Top" />
+                                <Setter Property="Padding" Value="2" />
+                                <Setter Property="Grid.IsSharedSizeScope" Value="true" />
+                            </Trigger>
+
+                            <Trigger Property="Role" Value="SubmenuItem">
+                                <Setter Property="DockPanel.Dock" Value="Top" />
+                                <Setter Property="Padding" Value="2" />
+                                <Setter TargetName="_ArrowPanel" Property="Visibility" Value="Collapsed" />
+                            </Trigger>
+                            <Trigger Property="IsSuspendingPopupAnimation" Value="true">
+                                <Setter TargetName="_SubMenuPopup" Property="PopupAnimation" Value="None" />
+                            </Trigger>
+
+                            <Trigger Property="Icon" Value="{x:Null}">
+                                <Setter TargetName="_Icon" Property="Visibility" Value="Collapsed" />
+                            </Trigger>
+
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter TargetName="_GlyphPanel" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="_Icon" Property="Visibility" Value="Collapsed" />
+                            </Trigger>
+
+                            <Trigger SourceName="_SubMenuPopup" Property="AllowsTransparency" Value="true">
+                                <Setter TargetName="SubMenu" Property="Margin" Value="0,0,3,3" />
+                                <Setter TargetName="SubMenu" Property="SnapsToDevicePixels" Value="true" />
+                            </Trigger>
+                            <Trigger Property="IsHighlighted" Value="true">
+                                <Setter Property="Background" Value="{DynamicResource Accent}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="EmbeddedTextBox" TargetType="{x:Type TextBox}">
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+            <Setter Property="BorderBrush" Value="{StaticResource TextBox.Static.Border}" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="3,1" />
+            <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+
+            <Setter Property="AllowDrop" Value="true" />
+            <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst" />
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="1"
+                                SnapsToDevicePixels="True">
+                            <Grid>
+                                <ScrollViewer x:Name="PART_ContentHost"
+                                              Margin="{TemplateBinding Padding}"
+                                              Focusable="false"
+                                              HorizontalScrollBarVisibility="Hidden"
+                                              VerticalScrollBarVisibility="Hidden" />
+                                <TextBlock x:Name="header"
+                                           Margin="6"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Center"
+                                           FontSize="12"
+                                           IsHitTestVisible="False"
+                                           Opacity="0.5"
+                                           Text="{TemplateBinding Tag}"
+                                           TextAlignment="Right" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="TextAlignment" Value="Right">
+                                <Setter TargetName="header" Property="HorizontalAlignment" Value="Left" />
+                            </Trigger>
+                            <Trigger Property="AcceptsReturn" Value="True">
+                                <Setter TargetName="header" Property="VerticalAlignment" Value="Top" />
+                                <Setter Property="VerticalContentAlignment" Value="Top" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter TargetName="border" Property="Opacity" Value="0.56" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource TextBox.MouseOver.Border}" />
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="true">
+                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource TextBox.Focus.Border}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsInactiveSelectionHighlightEnabled" Value="true" />
+                        <Condition Property="IsSelectionActive" Value="false" />
+                    </MultiTrigger.Conditions>
+                    <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type ToggleButton}">
+            <Setter Property="Padding" Value="12,3" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border x:Name="border"
+                                BorderThickness="1"
+                                CornerRadius="2">
+                            <Border.BorderBrush>
+                                <SolidColorBrush x:Name="borderbrush" Color="#d0d0d0" />
+                            </Border.BorderBrush>
+                            <Border.Background>
+                                <SolidColorBrush x:Name="borderbg" Color="#fdfdfd" />
+                            </Border.Background>
+
+                            <ContentPresenter x:Name="ContentPresenter"
+                                              Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+                        </Border>
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#e0eef9" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="#0078d4" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+
+                                <Setter TargetName="border" Property="Background" Value="#ccc" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.75" />
+                                <Setter TargetName="ContentPresenter" Property="Opacity" Value="0.5" />
+                                <Setter Property="IsHitTestVisible" Value="False" />
+                            </Trigger>
+                            <EventTrigger x:Name="t1" RoutedEvent="Control.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="borderbg"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#e0eef9"
+                                                        Duration="0:0:0.200" />
+                                        <ColorAnimation Storyboard.TargetName="borderbrush"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#0078d4"
+                                                        Duration="0:0:0.200" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Control.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="borderbg"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#fdfdfd"
+                                                        Duration="0:0:0.333" />
+                                        <ColorAnimation Storyboard.TargetName="borderbrush"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#d0d0d0"
+                                                        Duration="0:0:0.333" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Control.MouseDown">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="borderbg"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#cce4f7"
+                                                        Duration="0:0:0.333" />
+                                        <ColorAnimation Storyboard.TargetName="borderbrush"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#005499"
+                                                        Duration="0:0:0.333" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <!--<EventTrigger RoutedEvent="Control.MouseUp">
+                              <BeginStoryboard>
+                                  <Storyboard>
+                                      <ColorAnimation Storyboard.TargetName="borderbg"
+                                                      Storyboard.TargetProperty="Color"
+                                                      To="#e0eef9"
+                                                      Duration="0:0:0.333" />
+                                      <ColorAnimation Storyboard.TargetName="borderbrush"
+                                                      Storyboard.TargetProperty="Color"
+                                                      To="#0078d4"
+                                                      Duration="0:0:0.333" />
+                                  </Storyboard>
+                              </BeginStoryboard>
+                          </EventTrigger>-->
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type RadioButton}">
+            <Setter Property="Padding" Value="12,3" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                        <Border x:Name="border"
+                                BorderThickness="1"
+                                CornerRadius="2">
+                            <Border.BorderBrush>
+                                <SolidColorBrush x:Name="borderbrush" Color="#d0d0d0" />
+                            </Border.BorderBrush>
+                            <Border.Background>
+                                <SolidColorBrush x:Name="borderbg" Color="#fdfdfd" />
+                            </Border.Background>
+
+                            <ContentPresenter x:Name="ContentPresenter"
+                                              Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#e0eef9" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="#0078d4" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#ccc" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.75" />
+                                <Setter TargetName="ContentPresenter" Property="Opacity" Value="0.5" />
+                                <Setter Property="IsHitTestVisible" Value="False" />
+                            </Trigger>
+                            <EventTrigger x:Name="t1" RoutedEvent="Control.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="borderbg"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#e0eef9"
+                                                        Duration="0:0:0.200" />
+                                        <ColorAnimation Storyboard.TargetName="borderbrush"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#0078d4"
+                                                        Duration="0:0:0.200" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Control.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="borderbg"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#fdfdfd"
+                                                        Duration="0:0:0.333" />
+                                        <ColorAnimation Storyboard.TargetName="borderbrush"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#d0d0d0"
+                                                        Duration="0:0:0.333" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Control.MouseDown">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="borderbg"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#cce4f7"
+                                                        Duration="0:0:0.333" />
+                                        <ColorAnimation Storyboard.TargetName="borderbrush"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#005499"
+                                                        Duration="0:0:0.333" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <!--<EventTrigger RoutedEvent="Control.MouseUp">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetName="borderbg"
+                                                Storyboard.TargetProperty="Color"
+                                                To="#e0eef9"
+                                                Duration="0:0:0.333" />
+                                <ColorAnimation Storyboard.TargetName="borderbrush"
+                                                Storyboard.TargetProperty="Color"
+                                                To="#0078d4"
+                                                Duration="0:0:0.333" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>-->
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ComboToggleButton" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Padding" Value="6,3" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border Background="Transparent">
+                            <DockPanel Margin="{TemplateBinding Padding}">
+                                <TextBlock VerticalAlignment="Center"
+                                           DockPanel.Dock="Right"
+                                           FontFamily="Marlett"
+                                           Text="6" />
+                                <ContentPresenter />
+                            </DockPanel>
+                        </Border>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+        <Style TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="Padding" Value="12,3" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                        <Border x:Name="border"
+                                BorderThickness="1"
+                                CornerRadius="2">
+                            <Border.BorderBrush>
+                                <SolidColorBrush x:Name="borderbrush" Color="Transparent" />
+                            </Border.BorderBrush>
+                            <Border.Background>
+                                <SolidColorBrush x:Name="borderbg" Color="Transparent" />
+                            </Border.Background>
+                            <ContentPresenter Margin="{TemplateBinding Padding}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#e0eef9" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="#0078d4" />
+                            </Trigger>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#e0eef9" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="#0078d4" />
+                            </Trigger>
+
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+
+            </Setter>
+        </Style>
+        <Style TargetType="{x:Type ComboBox}">
+            <Setter Property="Padding" Value="12,3" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBox}">
+                        <Grid>
+
+                            <Border x:Name="border"
+                                    BorderThickness="1"
+                                    CornerRadius="2">
+                                <Border.BorderBrush>
+                                    <SolidColorBrush x:Name="borderbrush" Color="#d0d0d0" />
+                                </Border.BorderBrush>
+                                <Border.Background>
+                                    <SolidColorBrush x:Name="borderbg" Color="#fdfdfd" />
+                                </Border.Background>
+                                <ToggleButton x:Name="ToggleButton"
+                                              IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                              Style="{StaticResource ComboToggleButton}">
+
+                                    <ContentPresenter x:Name="ContentSite"
+                                                      Margin="8,3,23,3"
+                                                      HorizontalAlignment="Left"
+                                                      VerticalAlignment="Center"
+                                                      Content="{TemplateBinding SelectionBoxItem}"
+                                                      IsHitTestVisible="False" />
+                                </ToggleButton>
+                            </Border>
+
+                            <Popup x:Name="Popup"
+                                   AllowsTransparency="True"
+                                   Focusable="False"
+                                   IsOpen="{TemplateBinding IsDropDownOpen}"
+                                   Placement="Relative"
+                                   PlacementTarget="{Binding ElementName=ToggleButton, Mode=OneWay}"
+                                   PopupAnimation="Slide"
+                                   VerticalOffset="{TemplateBinding ActualHeight}">
+                                <Grid x:Name="DropDown">
+                                    <Border x:Name="DropDownBorder"
+                                            MinWidth="{Binding ActualWidth, ElementName=ToggleButton}"
+                                            MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                            Padding="2"
+                                            Background="#fff"
+                                            BorderBrush="#0078d4"
+                                            BorderThickness="1"
+                                            CornerRadius="3">
+                                        <ScrollViewer MaxHeight="340"
+                                                      CanContentScroll="True"
+                                                      ClipToBounds="True"
+                                                      HorizontalScrollBarVisibility="Auto"
+                                                      VerticalScrollBarVisibility="Auto">
+                                            <StackPanel Margin="0"
+                                                        IsItemsHost="True"
+                                                        KeyboardNavigation.DirectionalNavigation="Contained" />
+                                        </ScrollViewer>
+                                    </Border>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.75" />
+                                <Setter TargetName="ContentSite" Property="Opacity" Value="0.5" />
+                                <Setter Property="IsHitTestVisible" Value="False" />
+                            </Trigger>
+                            <EventTrigger x:Name="t1" RoutedEvent="Control.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="borderbg"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#e0eef9"
+                                                        Duration="0:0:0.200" />
+                                        <ColorAnimation Storyboard.TargetName="borderbrush"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#0078d4"
+                                                        Duration="0:0:0.200" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Control.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="borderbg"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#fdfdfd"
+                                                        Duration="0:0:0.333" />
+                                        <ColorAnimation Storyboard.TargetName="borderbrush"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#d0d0d0"
+                                                        Duration="0:0:0.333" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Control.MouseDown">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="borderbg"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#cce4f7"
+                                                        Duration="0:0:0.333" />
+                                        <ColorAnimation Storyboard.TargetName="borderbrush"
+                                                        Storyboard.TargetProperty="Color"
+                                                        To="#005499"
+                                                        Duration="0:0:0.333" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <!--<EventTrigger RoutedEvent="Control.MouseUp">
+                   <BeginStoryboard>
+                       <Storyboard>
+                           <ColorAnimation Storyboard.TargetName="borderbg"
+                                           Storyboard.TargetProperty="Color"
+                                           To="#e0eef9"
+                                           Duration="0:0:0.333" />
+                           <ColorAnimation Storyboard.TargetName="borderbrush"
+                                           Storyboard.TargetProperty="Color"
+                                           To="#0078d4"
+                                           Duration="0:0:0.333" />
+                       </Storyboard>
+                   </BeginStoryboard>
+               </EventTrigger>-->
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Application.Resources>
+</Application>

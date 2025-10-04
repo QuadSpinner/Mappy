@@ -1,0 +1,46 @@
+﻿<Window x:Class="Mappy.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="Mappy"
+        Width="800"
+        Height="450"
+        mc:Ignorable="d">
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Bottom" Margin="4">
+            <Button Margin="4" Style="{StaticResource Button-Important}" MinWidth="128"
+                    Padding="8" x:Name="btnSync"
+                    Content="Run Sync" Click="RunSync" />
+            <Button Margin="4"
+                    Padding="8"
+                    Content="Manage Accounts" Click="ShowAccountsDialog" />
+            <Label Content="Days:" VerticalAlignment="Center"></Label>
+            <TextBox x:Name="txtDays"
+                     Padding="8"
+                     Margin="4"
+                     VerticalAlignment="Center"
+                     FontFamily="Consolas"
+                     Text="8" Width="80" />
+            <Label Content="Keywords:" VerticalAlignment="Center"></Label>
+            <TextBox x:Name="k"
+                     Padding="8"
+                     Margin="4"
+                     VerticalAlignment="Center"
+                     FontFamily="Consolas"
+                     Text="invoice,receipt,remittance,billing statement,order" />
+        </DockPanel>
+        <TextBox x:Name="t"
+                 Margin="8"
+                 Padding="8"
+                 AcceptsReturn="True"
+                 AcceptsTab="True"
+                 Background="Black"
+                 DockPanel.Dock="Top"
+                 FontFamily="Consolas"
+                 Foreground="GhostWhite"
+                 IsReadOnly="True"
+                 Text="QuadSpinner Invoice Mapper"
+                 VerticalScrollBarVisibility="Auto" />
+    </DockPanel>
+</Window>
